@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <title>Wegamovie</title>
+	
+	<!-- Google Font "Crimson Text" -->
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet" />
+    <title>Wegamovie</title>
+    <style>
+        /* Apply "Crimson Text" font globally or to specific elements */
+        body, h1, h2, h3, h4, h5, h6, p, a, button {
+            font-family: 'Crimson Text', serif;
+        }
+		
+		#notification-bar {
+            background-color: #052c65;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        #notification-bar a {
+            color: #fff;
+            text-decoration: underline;
+        }
+    </style>
+	
+</head>
+<body>
+    <!-- Notification Bar -->
+    <div id="notification-bar">
+        Remember to bookmark this URL: <a href="https://wegamoviecom.fun" target="_blank">wegamoviecom.fun</a> and visit us directly for the latest movies and updates!
+    </div>
+    <header class="bg-dark text-white p-3">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a href="https://wegamoviecom.fun/" class="text-white h3" id="home-link">Wegamovie</a>
+            <button class="btn btn-secondary" id="category-btn" data-bs-toggle="dropdown" aria-expanded="false">
+                Categories
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="category-btn">
+                <li><a class="dropdown-item" href="#" onclick="getMoviesByCategory(28)">Action</a></li>
+                <li><a class="dropdown-item" href="#" onclick="getMoviesByCategory(18)">Drama</a></li>
+                <li><a class="dropdown-item" href="#" onclick="getMoviesByCategory(10751)">Family</a></li>
+                <li><a class="dropdown-item" href="#" onclick="getMoviesByCategory(27)">Horror</a></li>
+                <li><a class="dropdown-item" href="#" onclick="getMoviesByCategory(53)">Thriller</a></li>
+                <li><a class="dropdown-item" href="#" onclick="getMoviesByCategory(35)">Comedy</a></li>
+                <li><a class="dropdown-item" href="#" onclick="getMoviesByCategory(10749)">Romance</a></li>
+                <li><a class="dropdown-item" href="#" onclick="getMoviesByCategory(12)">Adventure</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="container my-4">
+        <!-- Search Form -->
+        <form id="form" class="d-flex mb-4">
+            <input type="text" placeholder="Search for movie" id="search" class="form-control me-2" />
+            <button type="submit" class="btn btn-primary" style="background-color: #0d6efd;">Search</button>
+        </form>
+		
+		<!-- Category Section -->
+        <div class="d-flex flex-wrap mb-4" id="category-section">
+            <button class="btn btn-outline-secondary me-2 mb-2" onclick="getMoviesByFilter('popular')">Popular</button>
+            <button class="btn btn-outline-secondary me-2 mb-2" onclick="getMoviesByFilter('top_rated')">Top Rated</button>
+            <button class="btn btn-outline-secondary me-2 mb-2" onclick="getMoviesByFilter('upcoming')">Upcoming</button>
+            <button class="btn btn-outline-secondary me-2 mb-2" onclick="getMoviesByLanguage('en')">Hollywood</button>
+            <button class="btn btn-outline-secondary me-2 mb-2" onclick="getMoviesByLanguage('hi')">Bollywood</button>
+            <button class="btn btn-outline-secondary me-2 mb-2" onclick="getMoviesByYear(2024)">2024</button>
+            <button class="btn btn-outline-secondary me-2 mb-2" onclick="getMoviesByYear(2023)">2023</button>
+            <button class="btn btn-outline-secondary me-2 mb-2" onclick="getMoviesByYear(2022)">2022</button>
+        </div>
+
+        <div id="tags" class="mb-3"></div>
+        <div class="row" id="main"></div>
+
+        <!-- Pagination Buttons: Previous and Next Page -->
+        <div id="pagination-container" class="text-center my-4">
+            <button id="prev-page-btn" class="btn btn-primary me-2" style="background-color: #0d6efd;" onclick="loadPreviousPage()">Previous Page</button>
+            <button id="next-page-btn" class="btn btn-primary" style="background-color: #0d6efd;" onclick="loadNextPage()">Next Page</button>
+        </div>
+    </div>
+	
+	<!-- Disclaimer Section -->
+<div class="container">
+    <div class="disclaimer-box">
+        <div class="disclaimer-title"><b>Disclaimer:</b></div>
+        <p>The information provided on this website is intended for general informational purposes only. While we strive to ensure the accuracy of the content, we make no representations or warranties of any kind, express or implied, regarding the completeness, accuracy, reliability, suitability, or availability of the information presented. Our movie recommendations and reviews reflect subjective opinions, and we encourage users to conduct their own research and exercise their own judgment before making decisions based on the information provided.</p>
+        <p>Please note that we are not responsible for the content or privacy practices of any external websites linked to this site. All movie-related content, including images and information, is credited to and owned by <a href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer">TMDB</a> and is used here strictly for informational purposes.</p>
+        <p>We reserve the right to amend this disclaimer at any time, and by using this website, you agree to be bound by the current version of these terms and conditions.</p>
+    </div>
+</div>
+
+    <footer class="bg-dark text-center text-white py-3">
+        
+		<footer> <a href="advertise.html" target="_blank">Advertise with Us</a> । <a href="about.html" target="_blank">About us</a> । <a href="contact.html" target="_blank">Contact us</a> । <a href="disclaimer.html" target="_blank">Disclaimer</a> । <a href="policy.html" target="_blank">Privacy Policy</a> । <a href="terms.html" target="_blank">Terms and Conditions</a><br><span class="copyright">© 2024 <a href="https://wegamoviecom.fun/" target="_blank">Wegamovie</a></span> • Developed by <a href="https://wegamoviecom.fun/" target="_blank">UDAYNATH</a></footer>
+    </footer>
+	
+
+    <!-- Modal for displaying movie details -->
+    <div id="movieDetailsModal" class="modal fade" tabindex="-1" aria-labelledby="movieDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="movieDetailsModalLabel">Movie Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <tbody id="movie-details-table"></tbody>
+                    </table>
+                    <!-- Generate a link for the blog post -->
+                    <a id="movie-blog-link" href="#" class="btn btn-primary" target="_blank">Read Full Movie Blog</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/f7a442f79b.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const API_KEY = "api_key=ec332d19e6fed067df0160ce34067cc4";
+        const BASE_URL = "https://api.themoviedb.org/3";
+        const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
+        
+        const main = document.getElementById("main");
+        let currentPage = 1;
+        const moviesPerPage = 20; // Set 20 movies per page
+        let isLoading = false;
+        let currentCategory = 28;
+        let currentSearch = "";
+
+        function getMoviesByCategory(categoryId, page = 1, searchQuery = "") {
+            if (isLoading) return;
+            isLoading = true;
+            currentCategory = categoryId;
+            currentSearch = searchQuery;
+
+            // Check if searchQuery is empty and adjust URL accordingly
+            const url = searchQuery 
+                ? `${BASE_URL}/search/movie?${API_KEY}&query=${searchQuery}&page=${page}` 
+                : `${BASE_URL}/discover/movie?with_genres=${categoryId}&${API_KEY}&page=${page}`;
+
+            fetch(url)
+                .then((res) => res.json())
+                .then((data) => {
+                    if (page === 1) main.innerHTML = "";
+                    if (data.results.length !== 0) {
+                        showMovies(data.results);
+                        currentPage = page; // Update current page
+                    } else {
+                        main.innerHTML += `<h1 class="text-center">No Results Found</h1>`;
+                    }
+                    isLoading = false;
+                });
+        }
+		
+		function getMoviesByFilter(filter, page = 1) {
+            if (isLoading) return;
+            isLoading = true;
+            const url = `${BASE_URL}/movie/${filter}?${API_KEY}&page=${page}`;
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    if (page === 1) main.innerHTML = "";
+                    showMovies(data.results);
+                    isLoading = false;
+                    currentPage = page;
+                });
+        }
+
+        function getMoviesByYear(year, page = 1) {
+            if (isLoading) return;
+            isLoading = true;
+            const url = `${BASE_URL}/discover/movie?${API_KEY}&primary_release_year=${year}&page=${page}`;
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    main.innerHTML = "";
+                    showMovies(data.results);
+                    isLoading = false;
+                    currentPage = page;
+                });
+        }
+		
+		function getMoviesByLanguage(language, page = 1) {
+            if (isLoading) return;
+            isLoading = true;
+            const url = `${BASE_URL}/discover/movie?${API_KEY}&with_original_language=${language}&page=${page}`;
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    main.innerHTML = "";
+                    showMovies(data.results);
+                    isLoading = false;
+                    currentPage = page;
+                });
+        }
+
+        function showMovies(data) {
+            main.innerHTML = "";
+            data.forEach((movie) => {
+                const { title, poster_path, id } = movie;
+                const movieEl = document.createElement("div");
+                movieEl.classList.add("col-lg-3", "col-md-4", "col-sm-6", "mb-4");
+                movieEl.innerHTML = `
+                    <div class="card h-100">
+                        <img src="${poster_path ? IMAGE_URL + poster_path : 'http://via.placeholder.com/500x750'}" class="card-img-top" alt="${title}">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title text-center">${title}</h5>
+                            <button class="btn btn-primary mt-auto" onclick="viewMovieDetails(${id})">View Details</button>
+                        </div>
+                    </div>`;
+                main.appendChild(movieEl);
+            });
+        }
+
+        function showMovies(data) {
+            data.forEach((movie) => {
+                const { title, poster_path, id } = movie;
+                const movieEl = document.createElement("div");
+                movieEl.classList.add("col-lg-3", "col-md-4", "col-sm-6", "mb-4");
+
+                movieEl.innerHTML = ` 
+                    <div class="card h-100">
+                        <img src="${poster_path ? IMAGE_URL + poster_path : 'http://via.placeholder.com/500x750'}" class="card-img-top" alt="${title}">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title text-center">${title}</h5>
+                            <button class="btn btn-primary mt-auto" onclick="viewMovieDetails(${id})">View Details</button>
+                        </div>
+                    </div>
+                `;
+                main.appendChild(movieEl);
+            });
+        }
+
+        function viewMovieDetails(id) {
+            fetch(`${BASE_URL}/movie/${id}?${API_KEY}`)
+                .then((res) => res.json())
+                .then((movieDetails) => {
+                    const { title, original_language, spoken_languages, release_date, runtime, production_countries, genres, overview, tagline, production_companies } = movieDetails;
+
+                    const detailsTable = document.getElementById("movie-details-table");
+                    detailsTable.innerHTML = `
+                        <tr><td><strong>Movie Name</strong></td><td>${title}</td></tr>
+                        <tr><td><strong>Original Language</strong></td><td>${original_language}</td></tr>
+                        <tr><td><strong>Spoken Language</strong></td><td>${spoken_languages.map(lang => lang.name).join(", ")}</td></tr>
+                        <tr><td><strong>Release Date</strong></td><td>${release_date}</td></tr>
+                        <tr><td><strong>Runtime</strong></td><td>${runtime} minutes</td></tr>
+                        <tr><td><strong>Country</strong></td><td>${production_countries.map(country => country.name).join(", ")}</td></tr>
+                        <tr><td><strong>Genres</strong></td><td>${genres.map(genre => genre.name).join(", ")}</td></tr>
+                        <tr><td><strong>Production Companies</strong></td><td>${production_companies.map(company => company.name).join(", ")}</td></tr>
+                    `;
+                    
+                    // Set up the blog link for the movie
+                    const blogLink = document.getElementById("movie-blog-link");
+                    blogLink.href = `movieBlog.html?id=${id}`; // Redirect to blog post page with the movie ID
+                    new bootstrap.Modal(document.getElementById('movieDetailsModal')).show();
+                });
+        }
+
+        function loadPreviousPage() {
+            if (currentPage > 1) {
+                getMoviesByCategory(currentCategory, currentPage - 1, currentSearch);
+            }
+        }
+
+        function loadNextPage() {
+            getMoviesByCategory(currentCategory, currentPage + 1, currentSearch);
+        }
+
+        // Initialize with Action Movies by default
+        getMoviesByCategory(currentCategory);
+
+        document.getElementById("form").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const searchQuery = document.getElementById("search").value;
+            currentSearch = searchQuery;
+            getMoviesByCategory(currentCategory, 1, searchQuery); // Reset page on search
+        });
+		
+		
+    </script>
+	
+	<style>/* Disclaimer box styling */
+        .disclaimer-box {
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .disclaimer-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }</style>
+	
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    
+	<!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;700&display=swap" rel="stylesheet" />
+    <title>Movie Blog</title>
+    <style>
+        /* Apply Google Font to the entire document */
+        body {
+            font-family: 'Crimson Text', serif;
+        }
+
+        #countdown {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        #scroll-message {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+            display: none;
+        }
+        .poster-image {
+            display: block;
+            margin: 20px auto;
+            border: 5px solid #ff6347;
+            transition: transform 0.3s ease;
+        }
+        .poster-image:hover {
+            transform: scale(1.05);
+        }
+        .disclaimer-box {
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .disclaimer-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .faq-item {
+            padding: 15px;
+            background-color: #f4f4f4;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+    </style>
+	
+	<title>Movie Blog</title>
+    <style>
+        #countdown {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        #scroll-message {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+            display: none;
+        }
+        .poster-image {
+            display: block;
+            margin: 0 auto;
+            border: 5px solid red;
+        }
+		
+		/* Disclaimer box styling */
+        .disclaimer-box {
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .disclaimer-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+		#notification-bar {
+            background-color: #052c65;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        #notification-bar a {
+            color: #fff;
+            text-decoration: underline;
+        }
+		
+    </style>
+</head>
+<body>
+    <!-- Notification Bar -->
+    <div id="notification-bar">
+        Remember to bookmark this URL: <a href="https://wegamoviecom.fun" target="_blank">wegamoviecom.fun</a> and visit us directly for the latest movies and updates!
+    </div>
+    <header class="bg-dark text-white p-3">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a href="https://wegamoviecom.fun/" class="text-white h3">Movie Blog</a>
+			<button onclick="window.history.back()" class="btn btn-outline-light"><a href="https://wegamoviecom.fun" target="_blank">Home</a></button>
+        </div>
+    </header>
+
+    
+
+    
+	
+	<!-- Disclaimer Section -->
+<div class="container">
+    <div class="disclaimer-box">
+        <h2><strong>About Us</strong></h2>
+<p><a href="https://wegamoviecom.fun" target="_blank"><strong>Wegamoviecom.fun</strong></a> is your ultimate destination for the latest movie updates. Whether you're a cinephile seeking:</p>
+<ul>
+  <li><strong>News on upcoming releases</strong></li>
+  <li><strong>Exclusive trailers</strong></li>
+  <li><strong>In-depth reviews</strong></li>
+  <li>Or simply looking to stay informed about the ever-evolving world of cinema</li>
+</ul>
+<p><strong><a href="https://wegamoviecom.fun" target="_blank">Wegamoviecom.fun</a> has you covered!</strong></p>
+
+    </div>
+</div>
+
+
+     <footer class="bg-dark text-center text-white py-3">
+        
+		<footer> <a href="advertise.html" target="_blank">Advertise with Us</a> । <a href="about.html" target="_blank">About us</a> । <a href="contact.html" target="_blank">Contact us</a> । <a href="disclaimer.html" target="_blank">Disclaimer</a> । <a href="policy.html" target="_blank">Privacy Policy</a> । <a href="terms.html" target="_blank">Terms and Conditions</a><br><span class="copyright">© 2024 <a href="https://wegamoviecom.fun/" target="_blank">Wegamovie</a></span> • Developed by <a href="https://wegamoviecom.fun/" target="_blank">UDAYNATH</a></footer>
+    </footer>
+
+    <script>
+        const API_KEY = "api_key=ec332d19e6fed067df0160ce34067cc4";
+        const BASE_URL = "https://api.themoviedb.org/3";
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const movieId = urlParams.get('id');
+
+        if (movieId) {
+            // Fetch Movie Details
+            fetch(`${BASE_URL}/movie/${movieId}?${API_KEY}`)
+                .then(response => response.json())
+                .then(movie => {
+                    const { title, overview, poster_path, original_language, spoken_languages, release_date, runtime, production_companies, budget, revenue, genres, vote_average } = movie;
+                    const movieBlogContent = document.getElementById("movie-blog-content");
+
+                    const posterUrl = `https://image.tmdb.org/t/p/w500${poster_path}`;
+                    const userScore = (vote_average * 10).toFixed(0);
+					const tmdbLink = `https://www.themoviedb.org/movie/${movieId}`;
+
+                    const movieDetails = `
+                        <table class="table table-bordered mt-4">
+                            <tr><th>Movie Name</th><td><a href="${tmdbLink}" target="_blank">${title}</a></td></tr>
+                            <tr><th>User Score</th><td>${userScore}%</td></tr>
+                            <tr><th>Original Language</th><td>${original_language}</td></tr>
+                            <tr><th>Spoken Language</th><td>${spoken_languages.map(lang => lang.name).join(', ')}</td></tr>
+                            <tr><th>Release Date</th><td>${release_date}</td></tr>
+                            <tr><th>Runtime</th><td>${runtime} minutes</td></tr>
+                            <tr><th>Genres</th><td>${genres.map(genre => genre.name).join(', ')}</td></tr>
+                            <tr><th>Production Companies</th><td>${production_companies.map(company => company.name).join(', ')}</td></tr>
+                            <tr><th>Budget</th><td>${budget ? `$${budget.toLocaleString()}` : 'N/A'}</td></tr>
+                            <tr><th>Total Revenue</th><td>${revenue ? `$${revenue.toLocaleString()}` : 'N/A'}</td></tr>
+                        </table>
+                    `;
+
+                    movieBlogContent.innerHTML = `
+                        <h1 class="text-center">${title}</h1>
+                        <h2 style="text-align: left;">Overview</h2>
+                        <p style="text-align: left;">${overview.split(' ').slice(0, 100).join(' ')}...</p>
+                        <div id="countdown">Please Wait: 15</div>
+                        <div id="scroll-message">Slowly Scroll Down</div>
+                        <img src="${posterUrl}" alt="Movie Poster" class="img-fluid mb-4 poster-image" />
+                        <h2 style="text-align: left;">Movie Details</h2>
+                        ${movieDetails}
+						
+						<h2 style="text-align: left;">Top 3 Reviews</h2>
+                        <div id="movie-reviews"></div>
+						
+						<h2 style="text-align: left;">Full Cast & Crew</h2>
+                        <div id="cast-crew-content" class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Photo</th>
+                                        <th>Name</th>
+                                        <th>Role</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cast-crew-table"></tbody>
+                            </table>
+                        </div>
+						
+						<h2 class="text-center" style="text-align: left;">Movie Trailer</h2>
+                        <div class="ratio ratio-16x9 mb-4">
+                            <iframe id="movie-trailer" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    `;
+					
+
+
+                    startCountdown();
+                })
+                .catch(error => {
+                    console.error("Error fetching movie details:", error);
+                    document.getElementById("movie-blog-content").innerHTML = "<h2>Error loading movie details.</h2>";
+                });
+				
+				fetch(`${BASE_URL}/movie/${movieId}/reviews?${API_KEY}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            const reviews = data.results.slice(0, 3);
+                            const reviewsContent = reviews.map(review => ` 
+                                <div class="review">
+                                    <p style="text-align: left;"><strong>${review.author}</strong>: ${review.content.split(' ').slice(0, 50).join(' ')}...</p>
+                                </div>
+                            `).join('');
+                            document.getElementById("movie-reviews").innerHTML = reviewsContent;
+                        });
+						
+						
+						fetch(`${BASE_URL}/movie/${movieId}/credits?${API_KEY}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            const castCrewTable = document.getElementById("cast-crew-table");
+
+                            data.cast.slice(0, 10).forEach(member => {
+                                const profileUrl = member.profile_path ? `https://image.tmdb.org/t/p/w200${member.profile_path}` : 'https://via.placeholder.com/100';
+                                const row = ` 
+                                    <tr>
+                                        <td><img src="${profileUrl}" alt="${member.name}" class="img-fluid" style="width: 100px; height: auto;"></td>
+                                        <td>${member.name}</td>
+                                        <td>${member.character}</td>
+                                    </tr>
+                                `;
+                                castCrewTable.innerHTML += row;
+                            });
+                        })
+						
+						fetch(`${BASE_URL}/movie/${movieId}/videos?${API_KEY}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            const trailer = data.results.find(video => video.type === "Trailer" && video.site === "YouTube");
+                            if (trailer) {
+                                document.getElementById("movie-trailer").src = `https://www.youtube.com/embed/${trailer.key}`;
+                            }
+                        });
+
+            // Fetch Movie FAQ from Discussions
+            fetch(`${BASE_URL}/movie/${movieId}/reviews?${API_KEY}`)
+                .then(response => response.json())
+                .then(data => {
+                    const faqContainer = document.getElementById("movie-faq");
+                    const questions = data.results.slice(0, 5);
+                    if (questions.length > 0) {
+                        faqContainer.innerHTML = questions.map(question => `
+                            <div class="faq-item">
+                                <h5 style="text-align: left;"><strong>Q: ${question.author} asked:</strong></h5>
+                                <p style="text-align: left;">${question.content}</p>
+                            </div>
+                            <hr>
+                        `).join('');
+                    } else {
+                        faqContainer.innerHTML = "<p style='text-align: left;'>No questions found for this movie.</p>";
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching FAQs:", error);
+                    document.getElementById("movie-faq").innerHTML = "<p>Error loading FAQs.</p>";
+                });
+        } else {
+            document.getElementById("movie-blog-content").innerHTML = "<h2>No movie ID found in the URL.</h2>";
+        }
+
+        // Countdown timer function
+        function startCountdown() {
+            let timeLeft = 15;
+            const countdownElement = document.getElementById("countdown");
+            const scrollMessage = document.getElementById("scroll-message");
+            const timer = setInterval(() => {
+                countdownElement.textContent = `Please Wait: ${timeLeft}`;
+                if (timeLeft <= 0) {
+                    clearInterval();
+                    countdownElement.style.display = "none";
+                    scrollMessage.style.display = "block";
+                }
+                timeLeft--;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
